@@ -1,1 +1,165 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#100d2b">
+<title>Voice World | Voice Rooms</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0c1022;color:#fff;font-family:Arial,sans-serif}
+header{padding:20px;background:#171333;border-bottom:1px solid #42366e}
+h1{margin:0;color:#c7b5ff}
+header p{color:#d0cce2;font-size:14px}
+main{max-width:850px;margin:auto;padding:16px}
+.panel{background:#171b32;padding:17px;border-radius:16px;margin-bottom:15px;border:1px solid #343450}
+h2{font-size:19px}
+p{line-height:1.6}
+button,select,input{font-size:15px;padding:12px;border-radius:9px;border:1px solid #554a80}
+button{background:#7752ee;color:white;border:0;font-weight:bold;cursor:pointer}
+button:focus,input:focus,select:focus{outline:2px solid #bca8ff}
+input,select{background:#0d1227;color:white;width:100%;margin:6px 0 12px}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.row button{flex:1}
+.room{background:#222540;padding:13px;border-radius:12px;margin:10px 0}
+.small{color:#c7c5d8;font-size:13px}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+nav button{flex:1;min-width:90px;background:#292541}
+nav button.active{background:#7752ee}
+.hidden{display:none}
+footer{padding:20px;text-align:center;color:#b9b5cc;font-size:12px}
+#notice{color:#b9f5cf;white-space:pre-wrap}
+</style>
+</head>
+<body>
+<header>
+  <h1>🎙️ Voice World</h1>
+  <p>बात करें • दोस्त बनाएँ • सुरक्षित रहें</p>
+</header>
+<main>
+  <section class="panel">
+    <h2>🌍 आपका Voice World</h2>
+    <p>नए लोगों से मिलें और अपनी पसंद के वॉइस रूम खोजें।</p>
+    <p class="small">डेमो संस्करण • अभी लाइव ऑडियो उपलब्ध नहीं है।</p>
+  </section>
 
+  <nav>
+    <button class="active" onclick="showTab('home',this)">होम</button>
+    <button onclick="showTab('rooms',this)">रूम</button>
+    <button onclick="showTab('create',this)">रूम बनाएँ</button>
+    <button onclick="showTab('friends',this)">दोस्त</button>
+    <button onclick="showTab('safety',this)">सुरक्षा</button>
+  </nav>
+
+  <section id="home" class="panel">
+    <h2>Voice World में आपका स्वागत है!</h2>
+    <p>Public रूम या आमंत्रण वाले Private रूम का डेमो देखें।</p>
+    <button onclick="showTab('rooms')">वॉइस रूम देखें</button>
+  </section>
+
+  <section id="rooms" class="panel hidden">
+    <h2>🎧 उपलब्ध डेमो रूम</h2>
+    <div id="roomList"></div>
+    <p id="notice" aria-live="polite"></p>
+  </section>
+
+  <section id="create" class="panel hidden">
+    <h2>➕ नया रूम बनाएँ</h2>
+    <label for="roomName">रूम का नाम</label>
+    <input id="roomName" maxlength="45" placeholder="जैसे Dosti Room">
+    <label for="roomType">रूम का प्रकार</label>
+    <select id="roomType">
+      <option value="Public">Public — सभी पात्र सदस्य</option>
+      <option value="Private">Private — आमंत्रण से</option>
+    </select>
+    <label for="ageGroup">उम्र का समूह</label>
+    <select id="ageGroup">
+      <option value="18+">18 वर्ष या अधिक</option>
+      <option value="13–17">13–17 वर्ष — अलग सुरक्षित समूह</option>
+    </select>
+    <p class="small">उम्र का चयन अभी केवल डेमो है। यह असली उम्र की पुष्टि नहीं करता। बच्चों और वयस्कों के रूम अलग रखें।</p>
+    <button onclick="createRoom()">रूम बनाएँ</button>
+    <p id="createNotice" aria-live="polite"></p>
+  </section>
+
+  <section id="friends" class="panel hidden">
+    <h2>👥 दोस्त</h2>
+    <p>यहाँ आप Friend Request फीचर का डेमो देख सकते हैं।</p>
+    <div class="room">
+      <strong>Demo Member</strong>
+      <p class="small">काल्पनिक सदस्य — वास्तविक यूज़र नहीं</p>
+      <button onclick="alert('डेमो: वास्तविक अनुरोध भेजने के लिए सुरक्षित लॉगिन और डेटाबेस जोड़ना होगा।')">Friend Request</button>
+    </div>
+  </section>
+
+  <section id="safety" class="panel hidden">
+    <h2>🛡️ सुरक्षा और AI टीम</h2>
+    <p>• परेशान करने वाले यूज़र को रिपोर्ट करें।</p>
+    <p>• यूज़र को ब्लॉक करने का विकल्प रखें।</p>
+    <p>• बच्चों और वयस्कों के लिए अलग सुरक्षित व्यवस्था रखें।</p>
+    <p>• AI संदिग्ध व्यवहार की पहचान कर सकता है; गंभीर मामलों में मानव समीक्षा आवश्यक है।</p>
+    <p>• फोटो और स्क्रीनशॉट को पूरी तरह रोकने की गारंटी नहीं दी जा सकती।</p>
+    <button onclick="alert('डेमो रिपोर्ट। असली रिपोर्ट सर्वर पर सुरक्षित रूप से सेव करनी होगी।')">रिपोर्ट का डेमो</button>
+  </section>
+</main>
+<footer>
+  Voice World © 2026 · शुरुआती डेमो · गोपनीयता और सुरक्षा महत्वपूर्ण हैं।
+</footer>
+
+<script>
+let rooms = [
+  {name:"Dosti Corner",type:"Public",age:"18+"},
+  {name:"Friends Lounge",type:"Private",age:"18+"},
+  {name:"Youth Safe Space",type:"Public",age:"13–17"}
+];
+
+function showTab(id,btn){
+  document.querySelectorAll("main > section").forEach(s=>s.classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
+  document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+  if(btn)btn.classList.add("active");
+  if(id==="rooms")renderRooms();
+}
+
+function renderRooms(){
+  const list=document.getElementById("roomList");
+  list.innerHTML="";
+  rooms.forEach((r,i)=>{
+    const div=document.createElement("div");
+    div.className="room";
+    const title=document.createElement("strong");
+    title.textContent="🎙️ "+r.name;
+    const info=document.createElement("p");
+    info.className="small";
+    info.textContent=r.type+" Room · उम्र समूह: "+r.age;
+    const button=document.createElement("button");
+    button.textContent=r.type==="Private"?"आमंत्रण जरूरी":"डेमो Join";
+    button.onclick=()=>{
+      document.getElementById("notice").textContent =
+      r.type==="Private"
+      ? "यह Private रूम है। वास्तविक वेबसाइट में होस्ट का निमंत्रण और सर्वर पर अनुमति जाँची जाएगी।"
+      : "आपने "+r.name+" चुना। यह केवल डेमो है; लाइव ऑडियो अभी जुड़ा नहीं है।";
+    };
+    div.append(title,info,button);
+    list.appendChild(div);
+  });
+}
+
+function createRoom(){
+  const name=document.getElementById("roomName").value.trim();
+  const type=document.getElementById("roomType").value;
+  const age=document.getElementById("ageGroup").value;
+  if(!name){
+    document.getElementById("createNotice").textContent="पहले रूम का नाम लिखें।";
+    return;
+  }
+  rooms.push({name,type,age});
+  document.getElementById("createNotice").textContent=
+    "डेमो रूम बन गया: "+name+". यह केवल इसी पेज की मेमोरी में है; सर्वर पर सेव नहीं हुआ।";
+  document.getElementById("roomName").value="";
+}
+renderRooms();
+</script>
+</body>
+  </html>
+  
